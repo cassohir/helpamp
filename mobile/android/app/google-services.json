@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "486431135192",
+    "project_id": "helpamp",
+    "storage_bucket": "helpamp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486431135192:android:4f1a2283d8e7654bff8ead",
+        "android_client_info": {
+          "package_name": "com.pamphelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486431135192-1iaj8ef1oajv4ptlmgf59u4845qgrnkt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5cW5cJI-LuLnvycpVs8vnou9wUL1eMPs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486431135192-1iaj8ef1oajv4ptlmgf59u4845qgrnkt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "486431135192-61vckj30qb89sk2i40vochhlh9rtapdl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pamphelp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
