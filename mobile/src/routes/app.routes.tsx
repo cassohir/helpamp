@@ -16,4 +16,4 @@ export function AppRoutes(){
       <Screen name="details" component={Details} />
     </Navigator>
   )
-}
+} 

@@ -10,6 +10,7 @@ import {Envelope, Key} from 'phosphor-react-native'
 
 export function SignIn(){
 
+  const [isLoading,setIsLoading] = useState(false);
   const [userEmail,setUserEmail] = useState('');
   const [password,setPassword] = useState('');
   const { colors } = useTheme();
@@ -20,9 +21,30 @@ export function SignIn(){
       return Alert.alert("Entrar","Informe E-mail e Senha");
     }
 
+    setIsLoading(true);
+
+    auth()
+    .signInWithEmailAndPassword(userEmail,password)
+    .catch((error) => {
+      setIsLoading(false);
+      console.log(error);
 
 
-    console.log(userEmail,password);
+    if(error.code === 'auth/invalid-email'){
+      return Alert.alert('Entrar', "-Email inválido")
+    }
+    if(error.code === 'auth/user-not-found'){
+      return Alert.alert('Entrar', "Senha ou E-mail inválido")
+    }
+    if(error.code === 'auth/wrong-password'){
+      return Alert.alert('Entrar', "Senha ou E-mail inválido")
+    }
+
+    return Alert.alert('Entrar', "Não foi possível acessar")
+
+    });
+
+
   }
   return (
     <VStack flex={1} alignItems="center" bg="gray.600" px={8} pt={24} >
@@ -50,7 +72,7 @@ export function SignIn(){
       onChangeText={setPassword}
       />
 
-      <Button title="Entrar" w="full" onPress={handleSignIn} />
+      <Button title="Entrar" w="full" onPress={handleSignIn} isLoading={isLoading} />
 
     </VStack>
 

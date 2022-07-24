@@ -1,27 +1,27 @@
-import { VStack,IconButton, HStack, useTheme,Heading, Text, FlatList,Center } from 'native-base';
-import { SignOut, ChatTeardropText } from 'phosphor-react-native';
-import {useState} from 'react';
-import {Button} from '../components/Button';
-import {useNavigation} from '@react-navigation/native';
-
+import {useState,useEffect} from 'react';
+import { Alert } from 'react-native';
+import  auth  from '@react-native-firebase/auth';
 import {Order, OrderProps} from '../components/Order';
+import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
+import { SignOut, ChatTeardropText } from 'phosphor-react-native';
+import { VStack,IconButton, HStack, useTheme,Heading, Text, FlatList,Center } from 'native-base';
+
+import { dateFormat} from '../utils/firestoreDateFormat';
+import {Filter} from '../components/Filter';
+import {Button} from '../components/Button';
+import {Loading } from '../components/Loading';
 import Logo from '../assets/logo_secondary.svg';
 
 
-import {Filter} from '../components/Filter';
+
 
 export function Home() {
 
-  const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>('open');
-  const [orders, setOrders] = useState<OrderProps[]>([
+  const [isLoading,setIsLoading] = useState(true);
 
-    {
-      id: '01',
-      patrimony: '12345',
-      when: '2020-01-01',
-      status: 'open',
-    }
-]);
+  const [statusSelected, setStatusSelected] = useState<'open' | 'closed'>('open');
+  const [orders, setOrders] = useState<OrderProps[]>([]);
   const navigation = useNavigation();
   const { colors } = useTheme();
 
@@ -32,6 +32,44 @@ function handleNewOrder(){
 function handleOpenDetails(orderId: string){
   navigation.navigate('details',{orderId});
 }
+
+function handleLogOut(){
+  auth().signOut()
+  .catch(error => {
+    console.log(error);
+    return Alert.alert('Sair', "Não foi possível sair");
+
+  });
+}
+
+
+useEffect(() => {
+  setIsLoading(true);
+  const subscriber = firestore()
+  .collection('orders')
+  .where('stats','==',statusSelected)
+  .onSnapshot(snapshot =>{
+    const data = snapshot.docs.map(doc => {
+      const {patrimony, description, status, created_at} = doc.data();
+
+      return {
+        id: doc.id,
+        patrimony,
+        description,
+        status,
+        when: dateFormat(created_at)
+      }
+    });
+    setOrders(data);
+    setIsLoading(false);
+  });
+
+  return subscriber;
+ 
+},[statusSelected])
+
+
+
 
   return (
     <VStack flex={1} pb={6} bg="gray.700">
@@ -46,8 +84,8 @@ function handleOpenDetails(orderId: string){
       >
         <Logo />
 
-        <IconButton
-        icon={<SignOut size={26} color={colors.gray[300]}/>} 
+        <IconButton onPress={handleLogOut}   
+        icon={<SignOut size={26} color={colors.gray[300]} />} 
         />
 
       </HStack>
@@ -82,7 +120,8 @@ function handleOpenDetails(orderId: string){
           />
 
         </HStack>
-
+      {
+        isLoading ? <Loading /> :
 
         <FlatList 
         data={orders}
@@ -95,6 +134,9 @@ function handleOpenDetails(orderId: string){
           <Text color="gray.300" fontSize="xl" mt={6} textAlign="center"> Você ainda não possui {'\n'} solicitações {statusSelected === 'open' ? 'em aberto' : 'fechadas '} </Text>
         </Center>}
         />
+
+
+      }
       <Button title="Nova Solicitação" onPress={handleNewOrder}/>
      </VStack>
     </VStack>
