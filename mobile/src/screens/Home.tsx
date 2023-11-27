@@ -36,7 +36,7 @@ function handleOpenDetails(orderId: string){
 function handleLogOut(){
   auth().signOut()
   .catch(error => {
-    console.log(error);
+    // console.log(error);
     return Alert.alert('Sair', "Não foi possível sair");
 
   });
@@ -98,7 +98,7 @@ useEffect(() => {
         </Heading>
 
     <Text color="gray.200">
-      3
+      {orders.length}
     </Text>
        </HStack>
     

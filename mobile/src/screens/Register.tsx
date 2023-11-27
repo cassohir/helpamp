@@ -37,7 +37,7 @@ export function Register() {
     })
     .catch((error) => {
       setIsLoading(false);
-      console.log(error);
+      // console.log(error);
       return Alert.alert('Cadastro', 'Não foi possível cadastrar a ordem de serviço');
 
     })

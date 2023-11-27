@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "helpamp",
+    "icon":"./src/assets/icon.png",
     "slug": "helpamp",
     "version": "1.0.0",
     "assetBundlePatterns": [

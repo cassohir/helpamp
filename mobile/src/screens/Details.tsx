@@ -6,7 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
 
 
-import {CircleWavyCheck,Hourglass,DesktopTower, Clipboard} from 'phosphor-react-native';
+import {CircleWavyCheck,Hourglass,DesktopTower, ClipboardText} from 'phosphor-react-native';
 
 import {CardDetails} from '../components/CardDetails';
 
@@ -66,7 +66,7 @@ export function Details() {
       navigation.goBack();
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
       Alert.alert('Erro', 'Não foi possível fechar a ordem');
     })
   }  
@@ -133,13 +133,14 @@ export function Details() {
         title="Equipamento"
         description={`PatrimÔnio ${order.patrimony}`}
         icon={DesktopTower}
-        footer={order.when}
+        
       />
 
       <CardDetails
         title="Descrição do Problema"
         description={order.patrimony}
-        icon={Clipboard}
+        icon={ClipboardText}
+        footer= {`Registrado em ${order.when}`}
         
       />
         <CardDetails
